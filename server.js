@@ -22,6 +22,10 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
+// Serve static files from frontend public directory and audio files
+app.use(express.static('../spotify/public'));
+app.use('/audio', express.static('../'));
+
 // Database connection with timeout fix
 mongoose.connect(process.env.MONGODB_URI, {
   serverSelectionTimeoutMS: 30000,
@@ -43,12 +47,10 @@ const seedDatabase = async () => {
     const count = await Song.countDocuments();
     if (count === 0) {
       const sampleSongs = [
-        { title: "Blinding Lights", artist: "The Weeknd", album: "After Hours", duration: "3:20", image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop", audioUrl: "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3", genre: "Pop", playCount: 0 },
-        { title: "Watermelon Sugar", artist: "Harry Styles", album: "Fine Line", duration: "2:54", image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop", audioUrl: "https://file-examples.com/storage/fe68c8a7c4bb3b2b8e8b3b8/2017/11/file_example_MP3_700KB.mp3", genre: "Pop", playCount: 0 },
-        { title: "Levitating", artist: "Dua Lipa", album: "Future Nostalgia", duration: "3:23", image: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&h=400&fit=crop", audioUrl: "https://file-examples.com/storage/fe68c8a7c4bb3b2b8e8b3b8/2017/11/file_example_MP3_1MG.mp3", genre: "Pop", playCount: 0 },
-        { title: "Good 4 U", artist: "Olivia Rodrigo", album: "SOUR", duration: "2:58", image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop", audioUrl: "https://file-examples.com/storage/fe68c8a7c4bb3b2b8e8b3b8/2017/11/file_example_MP3_2MG.mp3", genre: "Pop", playCount: 0 },
-        { title: "Stay", artist: "The Kid LAROI & Justin Bieber", album: "F*CK LOVE 3", duration: "2:21", image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop", audioUrl: "https://file-examples.com/storage/fe68c8a7c4bb3b2b8e8b3b8/2017/11/file_example_MP3_5MG.mp3", genre: "Pop", playCount: 0 },
-        { title: "Vaathi Coming", artist: "Anirudh Ravichander", album: "Master", duration: "4:20", image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop", audioUrl: "https://www.soundjay.com/misc/sounds/magic-chime-02.wav", genre: "Tamil", playCount: 0 },
+        { title: "Vaathi Coming", artist: "Anirudh Ravichander", album: "Master", duration: "4:20", image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop", audioUrl: "/vaathi-coming-master.mp3", genre: "Tamil", playCount: 0 },
+        { title: "Powerhouse", artist: "Raymond Scott", album: "Cartoon Music", duration: "2:45", image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop", audioUrl: "/audio/Powerhouse-64kbps.mp3", genre: "Instrumental", playCount: 0 },
+        { title: "Sample Music", artist: "Various Artists", album: "Sample Collection", duration: "3:15", image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop", audioUrl: "/sample-music.mp3", genre: "Pop", playCount: 0 },
+        { title: "Vaathi Raid", artist: "Anirudh Ravichander", album: "Master", duration: "4:20", image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop", audioUrl: "/audio/Vaathi Raid.mp3", genre: "Tamil", playCount: 0 },
         { title: "Kutti Story", artist: "Anirudh Ravichander", album: "Master", duration: "3:45", image: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&h=400&fit=crop", audioUrl: "https://www.soundjay.com/misc/sounds/fail-buzzer-02.wav", genre: "Tamil", playCount: 0 },
         { title: "Rowdy Baby", artist: "Dhanush, Dhee", album: "Maari 2", duration: "4:10", image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop", audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav", genre: "Tamil", playCount: 0 },
         { title: "Kaavaalaa", artist: "Shilpa Rao, Anirudh", album: "Jailer", duration: "4:05", image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop", audioUrl: "https://www.soundjay.com/misc/sounds/magic-chime-02.wav", genre: "Tamil", playCount: 0 },
