@@ -66,6 +66,36 @@ router.patch('/:id/play', async (req, res) => {
   }
 });
 
+// Update song
+router.put('/:id', auth, async (req, res) => {
+  try {
+    const song = await Song.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+    if (!song) {
+      return res.status(404).json({ message: 'Song not found' });
+    }
+    res.json(song);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Delete song
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const song = await Song.findByIdAndDelete(req.params.id);
+    if (!song) {
+      return res.status(404).json({ message: 'Song not found' });
+    }
+    res.json({ message: 'Song deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Get songs by album
 router.get('/album/:albumName', async (req, res) => {
   try {

@@ -8,6 +8,7 @@ const songSchema = new mongoose.Schema({
   image: { type: String, default: '' },
   audioUrl: { type: String, required: true },
   genre: { type: String, default: '' },
+  playCount: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now },
 });   
 
